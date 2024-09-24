@@ -1,0 +1,44 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cloud_order?useSSL=false&&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: orderservice
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery: # 注册中心配置
+        cluster-name: HZ # 集群名称
+        ephemeral: false # 是否是临时实例
+    loadbalancer:
+      nacos:
+        enabled: true # 开启nacos的负载均衡
+    openfeign:
+#      client:
+#        config:
+#          default:
+#            logger-level: basic # 开启日志 级别：basic
+        httpclient:
+          enabled: true
+          max-connections-per-route: 50 # 每个路由的最大连接数
+          max-connections: 200 # 整个连接池的最大连接数
+mybatis:
+  type-aliases-package: cn.itcast.user.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  level:
+    cn.itcast: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+
+
+#eureka:
+#  client:
+#    service-url: # 注册中心地址
+#      defaultZone: http://localhost:10086/eureka
+
